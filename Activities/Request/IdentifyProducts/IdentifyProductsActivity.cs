@@ -1,6 +1,5 @@
 ﻿namespace Activities.Request.IdentifyProducts
 {
-    using System;
     using System.Threading.Tasks;
     using MassTransit.Courier;
 
@@ -9,13 +8,18 @@
         public async Task<ExecutionResult> Execute(ExecuteContext<IdentifyProductsArguments> context)
         {
             var number = context.Arguments.NumberOfTasks;
+            int tenant = 1;
+            if (!int.TryParse(context.Arguments.Tenant, out tenant))
+            {
+                return context.Faulted(new System.Exception("Faulted!?!?"));
+            }
 
             return context.Completed();
         }
 
-        public Task<CompensationResult> Compensate(CompensateContext<IdentifyProductsLog> context)
+        public async Task<CompensationResult> Compensate(CompensateContext<IdentifyProductsLog> context)
         {
-            throw new NotImplementedException();
+            return context.Compensated();
         }
     }
 }

@@ -5,13 +5,19 @@
 
     public class CreateTaskActivity : ExecuteActivity<CreateTaskArguments>
     {
+        public CreateTaskActivity()
+        {
+
+        }
+
         public async Task<ExecutionResult> Execute(ExecuteContext<CreateTaskArguments> context)
         {
             var arguments = context.Arguments;
 
             return context.CompletedWithVariables(new
             {
-                NumberOfTasks = 10
+                NumberOfTasks = 10,
+                Tenant = "aaaa"
             });
         }
     }

@@ -15,10 +15,30 @@
         {
             try
             {
+                string action = "";
+
                 _bus = CreateBus();
                 TaskUtil.Await(() => _bus.StartAsync());
                 var endpoint = TaskUtil.Await(() => _bus.GetSendEndpoint(new Uri(ConfigurationManager.AppSettings["RabbitMQHost"] + ConfigurationManager.AppSettings["RabbitMQQueueRequest"])));
-                endpoint.Send(CreateRequestCall());
+                while (action != "exit")
+                {
+                    Console.WriteLine("1. Valid Command");
+                    Console.WriteLine("2. INvalid Command");
+                    Console.WriteLine("exit");
+
+                    action = Console.ReadLine();
+                    switch (action)
+                    {
+                        case "1":
+                            endpoint.Send(CreateRequestCall("1"));
+                            break;
+                        case "2":
+                            endpoint.Send(CreateRequestCall("x"));
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -38,11 +58,11 @@
             });
         }
 
-        private static TheRequestCall CreateRequestCall()
+        private static TheRequestCall CreateRequestCall(string tenant)
         {
             return new TheRequestCall
             {
-                Tenant = "1",
+                Tenant = tenant,
                 RequestedBy = Guid.NewGuid(),
                 RequestType = "fresh",
                 CustomerCountries = new List<string> { "PT", "ES", "FR" },

@@ -23,10 +23,7 @@
 
                 builder.SetVariables(new
                 {
-                    context.Message.CustomerCountries,
                     Id = context.Message.Id,
-                    context.Message.RequestedBy,
-                    context.Message.TargetProducts,
                     Tenant = context.Message.Tenant
                 });
 

@@ -59,14 +59,39 @@
                 });
 
                 // Aqui cria-se as queues das actividades
+
+                Uri compAddressIdentifyProds = host.GetSendAddress("pricerec-execute-activity-identifyproducts-compensate");
+
                 h.ReceiveEndpoint(host, "pricerec-execute-activity-createtask", e =>
                 {
-                    e.ExecuteActivityHost<CreateTaskActivity, CreateTaskArguments>(() => new CreateTaskActivity());
+                    e.ExecuteActivityHost<CreateTaskActivity, CreateTaskArguments>(); //() => new CreateTaskActivity()
                 });
 
-                h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts", e =>
+
+                //h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts", e =>
+                //{
+                //    e.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>(compAddressIdentifyProds);
+                //});
+
+                //h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts-compensate", e =>
+                //{
+                //    e.CompensateActivityHost<IdentifyProductsActivity, IdentifyProductsLog>();
+                //});
+
+                // This ^ or this 
+
+
+                h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts-compensate", e =>
                 {
-                    e.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>(() => new IdentifyProductsActivity());
+                    var compensateAddress = e.InputAddress;
+
+                    e.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>();
+
+                    h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts", a =>
+                    {
+                        a.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>(compensateAddress);
+                    });
+
                 });
             });
         }
