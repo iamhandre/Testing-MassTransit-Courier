@@ -62,6 +62,9 @@
     <Compile Include="Request\IdentifyProducts\IdentifyProductsActivity.cs" />
     <Compile Include="Request\IdentifyProducts\IdentifyProductsArguments.cs" />
     <Compile Include="Request\IdentifyProducts\IdentifyProductsLog.cs" />
+    <Compile Include="Request\SendToExternal\SendToExternalActivity.cs" />
+    <Compile Include="Request\SendToExternal\SendToExternalArguments.cs" />
+    <Compile Include="Request\SendToExternal\SendToExternalLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -72,6 +75,7 @@
       <Name>Contracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

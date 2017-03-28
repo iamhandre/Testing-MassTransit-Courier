@@ -64,35 +64,19 @@
 
                 h.ReceiveEndpoint(host, "pricerec-execute-activity-createtask", e =>
                 {
-                    e.ExecuteActivityHost<CreateTaskActivity, CreateTaskArguments>(); //() => new CreateTaskActivity()
+                    e.ExecuteActivityHost<CreateTaskActivity, CreateTaskArguments>();
                 });
 
-
-                //h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts", e =>
-                //{
-                //    e.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>(compAddressIdentifyProds);
-                //});
-
-                //h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts-compensate", e =>
-                //{
-                //    e.CompensateActivityHost<IdentifyProductsActivity, IdentifyProductsLog>();
-                //});
-
-                // This ^ or this 
-
+                h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts", e =>
+                {
+                    e.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>(compAddressIdentifyProds);
+                });
 
                 h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts-compensate", e =>
                 {
-                    var compensateAddress = e.InputAddress;
-
-                    e.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>();
-
-                    h.ReceiveEndpoint(host, "pricerec-execute-activity-identifyproducts", a =>
-                    {
-                        a.ExecuteActivityHost<IdentifyProductsActivity, IdentifyProductsArguments>(compensateAddress);
-                    });
-
+                    e.CompensateActivityHost<IdentifyProductsActivity, IdentifyProductsLog>();
                 });
+                
             });
         }
 
